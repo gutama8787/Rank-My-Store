@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Rank My Store</string>
+    <string name="label">Search</string>
 </resources>
