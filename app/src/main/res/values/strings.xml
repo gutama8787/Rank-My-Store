@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Rank My Store</string>
+    <string name="primary_color">Primary color</string>
+    <string name="button">Button</string>
+    <string name="secondary_color">Secondary color</string>
+    <string name="email_icon">email icon</string>
+    <string name="Log_in">Log in</string>
+    <string name="or">Or</string>
+    <string name="remember_me">Remember me</string>
+    <string name="signup">Sign Up</string>
+    <string name="create_account">Create Account</string>
+    <string name="sing_up_with_google">Sign up with Google</string>
 </resources>
