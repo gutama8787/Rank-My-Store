@@ -9,6 +9,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 
+/**
+ * TODO Sign in with Google: https://firebase.google.com/docs/auth/android/google-signin#kotlin+ktx_1
+ */
+
 class LoginActivity : AppCompatActivity() {
     val TAG = "Login-Activity"
 

@@ -23,16 +23,16 @@ tools:context=".SignUpActivity">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/signup_with_google_button"
-        android:layout_width="220dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="52dp"
-        android:text="@string/sing_up_with_google"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_account_text" />
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/signup_with_google_button"-->
+<!--        android:layout_width="220dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginTop="52dp"-->
+<!--        android:text="@string/sing_up_with_google"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.496"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/create_account_text" />-->
 
     <EditText
         android:id="@+id/username"
@@ -105,5 +105,17 @@ tools:context=".SignUpActivity">
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent" />
+    <com.google.android.gms.common.SignInButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/signup_with_google_button"
+        android:layout_marginTop="52dp"
+        android:text="@string/sing_up_with_google"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/create_account_text"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

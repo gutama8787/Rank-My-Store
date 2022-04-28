@@ -11,7 +11,7 @@
         android:theme="@style/Theme.RankMyStore">
         <activity
             android:name=".SignUpActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true" />
