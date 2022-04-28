@@ -5,12 +5,13 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
+    buildToolsVersion '31.0.0'
 
     defaultConfig {
         applicationId "com.example.rankmystore"
-        minSdk 21
-        targetSdk 32
+        minSdkVersion 26
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
@@ -52,5 +53,8 @@ dependencies {
 
     // Also declare the dependency for the Google Play services library and specify its version
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
+
+    //MUI API dependency
+    // api 'com.google.android.material:material:1.1.0-alpha06'
 
 }
