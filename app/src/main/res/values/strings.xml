@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Rank My Store</string>
-    <string name="label">Search</string>
+    <string name="label">Search For Store</string>
+    <string name="content_description_end_icon">null</string>
 </resources>
