@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RankMyStore">
         <activity
+            android:name=".CentralActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AddRatingActivity"
+            android:exported="false" />
+        <activity
             android:name=".SignUpActivity"
             android:exported="true" />
         <activity
