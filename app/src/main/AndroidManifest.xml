@@ -14,7 +14,7 @@
             android:exported="true" />
         <activity
             android:name=".AddRatingActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".SignUpActivity"
             android:exported="true" />
