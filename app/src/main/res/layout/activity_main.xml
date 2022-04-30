@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
+    //Rank my Store Logo
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="185dp"
@@ -20,6 +20,7 @@
         app:srcCompat="@drawable/rank_my_store"
         tools:ignore="MissingConstraints" />
 
+    //Search Bar
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textField"
         android:layout_marginStart="25dp"
@@ -33,16 +34,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/product_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+        </LinearLayout>
+
     </com.google.android.material.textfield.TextInputLayout>
+
+    //Search Button
 
     <Button
         android:id="@+id/containedButton"
-
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="145dp"
         android:layout_marginTop="210dp"
         android:text="Search"
-        app:backgroundTint="@color/apple_red"
-        app:icon="@drawable/search_icon" />
+        android:textColor="@color/black"
+        android:textSize="15dp" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="310dp"
+        android:text="@string/description"
+        android:textAppearance="?attr/textAppearanceBody2" />
+
+    //nearby Text
+    <TextView
+        android:id="@+id/nearbyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="275dp"
+        android:text="Stores Nearby"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="22dp"
+         />
+
 </RelativeLayout>
