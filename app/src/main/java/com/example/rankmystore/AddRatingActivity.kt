@@ -27,7 +27,10 @@ class AddRatingActivity : AppCompatActivity() {
         // initialize database and UI
         initDbAndUI()
 
+        var comment = commentInputEditText!!.text!!.toString()
+        var ratingValue = ratingBar!!.rating
 
+        submit!!.setOnClickListener({ addRating() })
 
 //        addData()
 //        readData()
@@ -41,7 +44,7 @@ class AddRatingActivity : AppCompatActivity() {
             }
         }
         else {
-
+            Log.i("AddRatingActivity","Not logged in")
         }
 
         // addRating()
@@ -61,12 +64,36 @@ class AddRatingActivity : AppCompatActivity() {
 
     }
 
+    private fun isUserSignedIn(): Boolean {
+        if (mAuth != null) {
+            if (mAuth!!.currentUser != null) {
+                Log.i(TAG,"${mAuth!!.currentUser!!.email}")
+                return true
+            }
+            else {
+                Log.i(TAG,"Log in or sign up first")
+                submit?.setOnClickListener({Toast.makeText(this,"Login first!",Toast.LENGTH_LONG).show()})
+            }
+        }
+        else {
+            Log.i("AddRatingActivity","Not logged in")
+        }
+        return false
+    }
+
     private fun addRating() {
-        TODO("Not yet implemented")
+        // var newRating = Rating("Address1","Address1","${mAuth!!.currentUser!!.email}","apple","picturepath")
+        if (isUserSignedIn()) {
+            var comment = commentInputEditText!!.text!!.toString()
+            var ratingValue = ratingBar!!.rating
+
+            var newExRating = RatingEx("${mAuth!!.currentUser!!.email}",ratingValue, comment)
+            addData(newExRating)
+        }
+
     }
 
     private fun readData() {
-        TODO("Not yet implemented")
         db!!.collection("users")
             .get()
             .addOnCompleteListener { task ->
@@ -80,18 +107,18 @@ class AddRatingActivity : AppCompatActivity() {
             }
     }
 
-    private fun addData() {
-        TODO("Not yet implemented")
+    private fun addData(newRating: RatingEx) {
         // Create a new user with a first and last name
         // Create a new user with a first and last name
-        val user: MutableMap<String, Any> = HashMap()
-        user["first"] = "Ada"
-        user["last"] = "Lovelace"
-        user["born"] = 1815
+//        val user: MutableMap<String, Any> = HashMap()
+//        user["first"] = "Ada"
+//        user["last"] = "Lovelace"
+//        user["born"] = 1815
 
 // Add a new document with a generated ID
-        db!!.collection("users")
-            .add(user)
+        Log.i(TAG,"adding to db...")
+        db!!.collection("Rating")
+            .add(newRating)
             .addOnSuccessListener { documentReference ->
                 Log.d(
                     TAG,
@@ -113,6 +140,10 @@ class AddRatingActivity : AppCompatActivity() {
      *
      */
     class Rating(var storeName: String, var storeAddress: String, var contributor: String, var fruitName: String, var pictureId: String) {
+
+    }
+
+    class RatingEx(var user: String, var rate: Float, var commetn: String) {
 
     }
 }
