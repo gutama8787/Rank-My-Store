@@ -1,9 +1,15 @@
 package com.example.rankmystore
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -21,6 +27,9 @@ class AddRatingActivity : AppCompatActivity() {
     var submit: Button? = null
 
     val TAG = "AddRatingActivity"
+
+    val REQUEST_CODE_CAMERA = 12
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_rating)
@@ -47,7 +56,45 @@ class AddRatingActivity : AppCompatActivity() {
             Log.i("AddRatingActivity","Not logged in")
         }
 
-        // addRating()
+        cameraButton!!.setOnClickListener({takePicture()})
+    }
+
+    private fun takePicture() {
+        if (hasPermissionCamera()) {
+            startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE),REQUEST_CODE_CAMERA)
+            // setImageView()
+        } else {
+            requestPermissions(arrayOf((Manifest.permission.CAMERA)),4)
+        }
+    }
+
+    private fun hasPermissionCamera(): Boolean {
+        return checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 4) {
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE),12)
+            } else {
+                Toast.makeText(this,"please grant permission to take picture",Toast.LENGTH_LONG ).show()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_CAMERA) {
+            val img = data!!.extras!!.get("data") as Bitmap
+            imageView!!.setImageBitmap(img)
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     private fun initDbAndUI() {
@@ -108,13 +155,6 @@ class AddRatingActivity : AppCompatActivity() {
     }
 
     private fun addData(newRating: RatingEx) {
-        // Create a new user with a first and last name
-        // Create a new user with a first and last name
-//        val user: MutableMap<String, Any> = HashMap()
-//        user["first"] = "Ada"
-//        user["last"] = "Lovelace"
-//        user["born"] = 1815
-
 // Add a new document with a generated ID
         Log.i(TAG,"adding to db...")
         db!!.collection("Rating")
