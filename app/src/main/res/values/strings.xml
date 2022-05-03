@@ -4,4 +4,7 @@
     <string name="title">Title Placeholder</string>
     <string name="description">Description Placeholder</string>
     <string name="content_description_end_icon">null</string>
+    <string name="search_tab">Search</string>
+    <string name="account_tab">Account</string>
+    <string name="home_tab">Home</string>
 </resources>
