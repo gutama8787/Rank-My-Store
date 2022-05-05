@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/saul_/Documents/CMSC436/cmsc436-edcortes/Rank-My-Store/app/src/main/res/layout/activity_main.xml" value="0.2359375" />
-        <entry key="..\:/Users/saul_/Documents/CMSC436/cmsc436-edcortes/Rank-My-Store/app/src/main/res/layout/homepage_layout.xml" value="0.2359375" />
+        <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/drawable/fragment_border_bottom.xml" value="0.1825" />
+        <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/layout/activity_main.xml" value="0.23072916666666668" />
+        <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/layout/activity_store_view.xml" value="0.23229166666666667" />
+        <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/layout/activity_view_store.xml" value="0.3338541666666667" />
+        <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.18385416666666668" />
       </map>
     </option>
   </component>
