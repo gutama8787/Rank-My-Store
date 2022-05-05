@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+token.txt
+app/google-services.json

@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="apple_red">#FF0800</color>
+    <color name="leaf_green">#96C94A</color>
+    <color name = "shadow">#C5C6D0</color>
+<!--    <color name="green_k">#7bf1a8</color>-->
+<!--    <color name="green_w">#c1fba4</color>-->
 </resources>
