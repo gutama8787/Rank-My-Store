@@ -5,7 +5,6 @@
     android:layout_height="330dp"
     android:layout_marginRight="5dp"
     android:layout_marginLeft="5dp"
-    android:layout_width="180dp"
     app:cardBackgroundColor="@android:color/white"
     app:cardElevation="20dp"
     app:cardPreventCornerOverlap="true">

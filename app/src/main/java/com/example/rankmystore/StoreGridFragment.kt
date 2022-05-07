@@ -40,7 +40,7 @@ class StoreGridFragment: Fragment() {
 
         //get nearby places
         Log.d("storeList", "fragment size: " + MainActivity.storeList)
-        val storeList = MainActivity.storeList
+       // val storeList = MainActivity.storeList
 
         val storeList = mutableListOf<StoreEntry>()
         var product1 : StoreEntry = StoreEntry()
