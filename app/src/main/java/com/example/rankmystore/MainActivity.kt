@@ -1,94 +1,46 @@
 package com.example.rankmystore
 
 import android.R.attr.apiKey
-import android.annotation.SuppressLint
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.location.*
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var searchBar: TextInputEditText
     lateinit var searchButton : Button
     lateinit var bottomTabs : BottomNavigationView
-    var request_code = 101
-    var PROXIMITY_RADIUS = 100000
-    var lat : Double = 39.1902658
-    var lng : Double = -76.6100414
-    lateinit var fusedLocationProviderClient : FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //comment
+
+        // Initialize the SDK
+
+        val key = "AIzaSyCMEYURMvccFilVqreWH0j3Mi64cM2Zj5Y"
+        Places.initialize(applicationContext, key)
+
+        // Create a new PlacesClient instance
+        val placesClient = Places.createClient(this)
+
+        val fragment = StoreGridFragment()
+        val fragmentManager = supportFragmentManager
+
+        if(null == fragmentManager.findFragmentById(R.id.fragment_container)) {
+            val fragmentTransaction1 = fragmentManager.beginTransaction()
+            fragmentTransaction1.add(R.id.fragment_container, fragment)
+            fragmentTransaction1.commit()
+        }
+
         //get views and components from xml
         searchBar = findViewById(R.id.search_bar)
         searchButton = findViewById(R.id.containedButton)
         bottomTabs = findViewById(R.id.bottom_navigation)
-
-        //fused initialized
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-
-        // Initialize the SDK
-        val key = "AIzaSyAokj6tSKAL653T9lBjnaRfO2xiW4WjLgs"
-        Places.initialize(applicationContext, key)
-
-        //get list of stores nearby
-
-        Log.d("storeList", "before size: " + storeList.size)
-        var url = getUrl(lat, lng, "store")
-        var dataTransfer = arrayOf<Object>(Object(), Object())
-        dataTransfer[0] = storeList as Object
-        dataTransfer[1] = url as Object
-
-        Log.d("bruh", "Main url: " + dataTransfer[1].toString())
-
-        var nbp : GetNearbyPlaces = GetNearbyPlaces()
-        nbp.execute(*dataTransfer)
-
-        Log.d("storeList", "after size: " + storeList.size)
-        //set up fragment for scrollable cards
-
-        val recyclerView : RecyclerView = findViewById(R.id.recycler_view)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = GridLayoutManager(this, 1, RecyclerView.HORIZONTAL, false)
-
-
-        //get nearby places
-        Log.d("storeList", "fragment size: " + MainActivity.storeList)
-        val storeList = MainActivity.storeList
-
-        storeList.add(StoreEntry())
-
-        val adapter = panel_adapter(storeList)
-        recyclerView.adapter = adapter
-
-        //autocomplete search bar
-
-        searchBar.setOnClickListener{
-            var fieldList :List<Place.Field> = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.ADDRESS)
-            val intent: Intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fieldList).build(this)
-            startActivityForResult(intent, requestCode)
-        }
 
         //Button On CLick Listener
         searchButton.setOnClickListener{
@@ -97,22 +49,19 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
         //Tabs On Click Listener
         bottomTabs.setOnNavigationItemSelectedListener {
             item ->
             when(item.itemId){
                 R.id.page_1 -> {
                     searchBar.setText("")
-                    searchBar.performClick()
-                    false
+                    true
                 }
                 R.id.page_2 -> {
                     false
                 }
                 R.id.page_3 -> {
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    true
+                    false
                 }
                 else -> {
                     false
@@ -204,10 +153,7 @@ class MainActivity : AppCompatActivity() {
 
         return googlePlaceUrl.toString()
     }
-
     companion object{
         private const val label = "placeholder label"
-        private const val requestCode = 100
-        var storeList : ArrayList<StoreEntry> = ArrayList<StoreEntry>()
     }
 }
