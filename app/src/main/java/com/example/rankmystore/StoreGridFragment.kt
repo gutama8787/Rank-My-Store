@@ -25,7 +25,7 @@ class StoreGridFragment: Fragment(){
         // Set up the RecyclerView
         val recyclerView : RecyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)
+        recyclerView.layoutManager = GridLayoutManager(context, 1, RecyclerView.HORIZONTAL, false)
 
         val storeList = mutableListOf<StoreEntry>()
         var product1 : StoreEntry = StoreEntry()
