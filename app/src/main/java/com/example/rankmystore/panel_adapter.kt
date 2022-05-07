@@ -7,7 +7,6 @@ import org.w3c.dom.Text
 class panel_adapter(private val storeList: List<StoreEntry>): RecyclerView.Adapter<StoreCardHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreCardHolder {
         val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.store_panel, parent, false)
-
         return StoreCardHolder(layoutView)
     }
 
@@ -16,14 +15,7 @@ class panel_adapter(private val storeList: List<StoreEntry>): RecyclerView.Adapt
         if(position < storeList.size){
             val store = storeList[position]
             holder.storeTitle.text = store.storeName
-            holder.productDesc.text = store.lat.toString() + "," + store.lng.toString()
-
-        }
-
-        //
-        holder.itemView.setOnClickListener{
-            holder.storeTitle.text = "clicked on this card"
-
+            holder.productDesc.text = store.storeRating
         }
 
     }
