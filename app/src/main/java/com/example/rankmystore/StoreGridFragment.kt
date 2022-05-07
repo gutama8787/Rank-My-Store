@@ -1,17 +1,26 @@
 package com.example.rankmystore
 
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import java.util.jar.Manifest
 
-class StoreGridFragment: Fragment(){
+
+class StoreGridFragment: Fragment() {
+    var PROXIMITY_RADIUS = 10000
+    var longitude: Double = 76.6100414
+    var latitude: Double = 39.1902558
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -25,30 +34,36 @@ class StoreGridFragment: Fragment(){
         // Set up the RecyclerView
         val recyclerView : RecyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)
+        recyclerView.layoutManager = GridLayoutManager(context, 1, RecyclerView.HORIZONTAL, false)
 
-        val storeList = mutableListOf<StoreEntry>()
-        var product1 : StoreEntry = StoreEntry()
-        product1.storeName = "title1"
-        product1.storeRating = "rating"
-        var product2 : StoreEntry = StoreEntry()
-        product2.storeName = "title 2"
-        product2.storeRating = "rating 2"
-        var product3 : StoreEntry = StoreEntry()
-        product3.storeName = "title3"
-        product3.storeRating = "rating"
-        var product4 : StoreEntry = StoreEntry()
-        product4.storeName = "BRUH"
-        product4.storeRating = "rating 2"
-        storeList.add(product1)
-        storeList.add(product2)
-        storeList.add(product3)
-        storeList.add(product4)
+
+        //get nearby places
+        Log.d("storeList", "fragment size: " + MainActivity.storeList)
+        val storeList = MainActivity.storeList
+
 
         val adapter = panel_adapter(storeList)
         recyclerView.adapter = adapter
 
         return view
     }
+
+    private fun getUrl(latitude: Double, longitude : Double, nearbyPlace : String): String{
+        var googlePlaceUrl : StringBuilder = StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?")
+        googlePlaceUrl.append("location=" + latitude + "," + longitude)
+        googlePlaceUrl.append("&radius=" + PROXIMITY_RADIUS)
+        googlePlaceUrl.append("&type=" + nearbyPlace)
+        googlePlaceUrl.append("&sensor=true")
+        googlePlaceUrl.append("&key=" + "AIzaSyBUTnijferzRn5Scrgm5tgdx_FMyAej264")
+
+        return googlePlaceUrl.toString()
+    }
+
+    companion object{
+        private const val label = "placeholder label"
+        private const val requestCode = 100
+
+    }
+
 
 }

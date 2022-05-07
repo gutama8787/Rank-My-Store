@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="0dp">
 
             <TextView
                 android:id="@+id/product_title"
@@ -66,13 +66,13 @@
         android:textColor="@color/black"
         android:textSize="15dp" />
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="210dp"
-        android:text="@string/description"
-        android:textAppearance="?attr/textAppearanceBody2" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="260dp"/>
 
     //nearby Text
     <TextView
