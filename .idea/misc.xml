@@ -3,24 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-
-        <entry key="..\:/Users/saul_/Documents/CMSC436/cmsc436-edcortes/Rank-My-Store/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/saul_/Documents/CMSC436/cmsc436-edcortes/Rank-My-Store/app/src/main/res/layout/homepage_layout.xml" value="0.2359375" />
-        <entry key="..\:/Users/saul_/Documents/CMSC436/cmsc436-edcortes/Rank-My-Store/app/src/main/res/layout/store_panel.xml" value="0.1" />
-        <entry key="..\:/Users/saul_/Documents/CMSC436/cmsc436-edcortes/Rank-My-Store/app/src/main/res/layout/store_scroll_fragment.xml" value="0.15307971014492755" />
-        <entry key="..\:/Users/saul_/Documents/CMSC436/cmsc436-edcortes/Rank-My-Store/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.1" />
-        <entry key="..\:/Users/saul_/Documents/CMSC436/cmsc436-edcortes/Rank-My-Store/app/src/main/res/menu/menus.xml" value="0.234375" />
-        <entry key="..\:/Users/Gutama/AndroidStudioProjects/RankMyStore/app/src/main/res/layout/activity_add_rating.xml" value="0.264" />
-        <entry key="..\:/Users/Gutama/AndroidStudioProjects/RankMyStore/app/src/main/res/layout/activity_central.xml" value="0.264" />
-        <entry key="..\:/Users/Gutama/AndroidStudioProjects/RankMyStore/app/src/main/res/layout/activity_login.xml" value="0.264" />
-        <entry key="..\:/Users/Gutama/AndroidStudioProjects/RankMyStore/app/src/main/res/layout/activity_login2.xml" value="0.10989583333333333" />
-        <entry key="..\:/Users/Gutama/AndroidStudioProjects/RankMyStore/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/Users/Gutama/AndroidStudioProjects/RankMyStore/app/src/main/res/layout/activity_sign_up.xml" value="0.234375" />
-
         <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/drawable/fragment_border_bottom.xml" value="0.1825" />
         <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/layout/activity_main.xml" value="0.23072916666666668" />
         <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/layout/activity_store_view.xml" value="0.23229166666666667" />
         <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/layout/activity_view_store.xml" value="0.3338541666666667" />
+        <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/layout/store_panel.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/layout/store_scroll_fragment.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/Ethan/Desktop/436 final project/Rank-My-Store/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.18385416666666668" />
       </map>
     </option>

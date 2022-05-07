@@ -6,6 +6,8 @@ import androidx.lifecycle.Transformations.map
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+
 //import com.google.common.io.Files.map
 
 class StoreViewActivity: AppCompatActivity(), OnMapReadyCallback {
@@ -18,9 +20,25 @@ class StoreViewActivity: AppCompatActivity(), OnMapReadyCallback {
         val map = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         map.getMapAsync(this)
 
+        //comment
+
+        // Initialize the SDK
+        val key = "AIzaSyCMEYURMvccFilVqreWH0j3Mi64cM2Zj5Y"
+        Places.initialize(applicationContext, key)
+
+        // Create a new PlacesClient instance
+        val placesClient = Places.createClient(this)
+
+        val fragment = StoreGridFragment()
+        val fragmentManager = supportFragmentManager
+
+        if(null == fragmentManager.findFragmentById(R.id.fragment_container)) {
+            val fragmentTransaction1 = fragmentManager.beginTransaction()
+            fragmentTransaction1.add(R.id.fragment_container, fragment)
+            fragmentTransaction1.commit()
+        }
 
     }
-
 
     override fun onMapReady(map: GoogleMap?) {
 
