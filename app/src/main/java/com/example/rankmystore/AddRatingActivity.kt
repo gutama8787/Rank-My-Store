@@ -4,13 +4,12 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -20,22 +19,24 @@ class AddRatingActivity : AppCompatActivity() {
     var mAuth: FirebaseAuth? = null
     var commentInputEditText: EditText? = null
     var imageView: ImageView? = null
-    var addressInputEditText: EditText? = null
     var cameraButton: ImageButton? = null
     var gallaryButton: ImageButton? = null
     var ratingBar: RatingBar? = null
     var submit: Button? = null
-
+//    var dbProvider: DatabaseProvider? = null
+    var fruitImg: Bitmap? = null
+    var mImageUri: Uri? = null
+    val dbProvider : DatabaseProvider = DatabaseProvider()
     val TAG = "AddRatingActivity"
-
     val REQUEST_CODE_CAMERA = 12
+    val REQUEST_CODE_PICK_IMAGE = 55
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_rating)
         // initialize database and UI
         initDbAndUI()
-
+//        dbProvider = DatabaseProvider()
         var comment = commentInputEditText!!.text!!.toString()
         var ratingValue = ratingBar!!.rating
 
@@ -57,6 +58,13 @@ class AddRatingActivity : AppCompatActivity() {
         }
 
         cameraButton!!.setOnClickListener({takePicture()})
+        gallaryButton!!.setOnClickListener({pickImage()})
+    }
+
+    private fun pickImage() {
+//        TODO("Not yet implemented")
+        var intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent,55)
     }
 
     private fun takePicture() {
@@ -88,12 +96,15 @@ class AddRatingActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
+        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_CAMERA) {
             val img = data!!.extras!!.get("data") as Bitmap
             imageView!!.setImageBitmap(img)
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
+        } else if(resultCode == RESULT_OK && requestCode == REQUEST_CODE_PICK_IMAGE && data != null) {
+            var imgUri = data!!.data
+            var mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+            fruitImg = mBitmap
+            imageView!!.setImageBitmap(mBitmap)
         }
     }
 
@@ -103,12 +114,10 @@ class AddRatingActivity : AppCompatActivity() {
 
         commentInputEditText = findViewById(R.id.commentInputEditText)
         imageView = findViewById(R.id.imageView)
-        addressInputEditText = findViewById(R.id.addressInputEditText)
         cameraButton = findViewById(R.id.cameraButton)
         gallaryButton = findViewById(R.id.gallaryButton)
         ratingBar = findViewById(R.id.ratingBar)
         submit = findViewById(R.id.submit)
-
     }
 
     private fun isUserSignedIn(): Boolean {
@@ -130,6 +139,7 @@ class AddRatingActivity : AppCompatActivity() {
 
     private fun addRating() {
         // var newRating = Rating("Address1","Address1","${mAuth!!.currentUser!!.email}","apple","picturepath")
+
         if (isUserSignedIn()) {
             var comment = commentInputEditText!!.text!!.toString()
             var ratingValue = ratingBar!!.rating
@@ -137,7 +147,6 @@ class AddRatingActivity : AppCompatActivity() {
             var newExRating = RatingEx("${mAuth!!.currentUser!!.email}",ratingValue, comment)
             addData(newExRating)
         }
-
     }
 
     private fun readData() {
@@ -155,6 +164,8 @@ class AddRatingActivity : AppCompatActivity() {
     }
 
     private fun addData(newRating: RatingEx) {
+        val uploadResult = dbProvider.uploadImage(fruitImg)
+        Log.i(TAG,"upload success $uploadResult")
 // Add a new document with a generated ID
         Log.i(TAG,"adding to db...")
         db!!.collection("Rating")
@@ -164,8 +175,14 @@ class AddRatingActivity : AppCompatActivity() {
                     TAG,
                     "DocumentSnapshot added with ID: " + documentReference.id
                 )
+                addImage()
             }
             .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }
+    }
+
+    private fun addImage() {
+//        TODO("Not yet implemented")
+
     }
 
     // Users add ratings
