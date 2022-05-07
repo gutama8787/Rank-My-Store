@@ -42,7 +42,7 @@ class StoreGridFragment: Fragment() {
         Log.d("storeList", "fragment size: " + MainActivity.storeList)
         val storeList = MainActivity.storeList
 
-        val storeList = mutableListOf<StoreEntry>()
+//        val storeList = mutableListOf<StoreEntry>()
         var product1 : StoreEntry = StoreEntry()
         product1.storeName = "title1"
         product1.storeRating = "rating"

@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         // Initialize the SDK
-        val key = "AIzaSyBUTnijferzRn5Scrgm5tgdx_FMyAej264"
+        val key = "_key_"
         Places.initialize(applicationContext, key)
 
         //get list of stores nearby
@@ -200,7 +200,7 @@ class MainActivity : AppCompatActivity() {
         googlePlaceUrl.append("&radius=" + PROXIMITY_RADIUS)
         googlePlaceUrl.append("&type=" + nearbyPlace)
         googlePlaceUrl.append("&sensor=true")
-        googlePlaceUrl.append("&key=" + "AIzaSyBUTnijferzRn5Scrgm5tgdx_FMyAej264")
+        googlePlaceUrl.append("&key=" + "_key_")
 
         return googlePlaceUrl.toString()
     }
