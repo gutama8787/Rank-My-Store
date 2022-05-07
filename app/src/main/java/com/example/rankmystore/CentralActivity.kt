@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
 class CentralActivity : AppCompatActivity() {
@@ -19,6 +20,7 @@ class CentralActivity : AppCompatActivity() {
     var logoutButton: Button? = null
     var loggedIn: TextView? = null
     var auth: FirebaseAuth? = null
+    var showAllStoresButton: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,29 +35,34 @@ class CentralActivity : AppCompatActivity() {
         reviewButton = findViewById(R.id.reviewButton)
         searchButton = findViewById(R.id.searchButton)
         logoutButton = findViewById(R.id.logoutButton)
-        loggedIn = findViewById(R.id.loggedIn)
+        showAllStoresButton = findViewById(R.id.dbTester)
 
         signupButton?.setOnClickListener({login()})
         loginButton?.setOnClickListener({login()})
         reviewButton?.setOnClickListener({review()})
         searchButton?.setOnClickListener({search()})
         logoutButton?.setOnClickListener({logout()})
-
+        showAllStoresButton?.setOnClickListener { showAllStores() }
         // set login status
         loginStatus()
     }
 
+    private fun showAllStores() {
+//        TODO("Not yet implemented")
+
+    }
+
     private fun loginStatus() {
-        var text = loggedIn!!.text!!.toString()
+        // var text = loggedIn!!.text!!.toString()
         if (auth != null) {
             if (auth!!.currentUser != null) {
-                var text = loggedIn!!.text!!.toString()
-                loggedIn!!.text = text + auth!!.currentUser!!.email
-
+//                var text = loggedIn!!.text!!.toString()
+//                loggedIn!!.text = text + auth!!.currentUser!!.email
+                Toast.makeText(this,"You are logged in!",Toast.LENGTH_LONG)
             }
             else {
-                loggedIn!!.text = text + "None"
-                Log.i(TAG,"no current user")
+//                loggedIn!!.text = text + "None"
+                Toast.makeText(this,"You are not logged in!",Toast.LENGTH_LONG)
             }
         }
         else {
