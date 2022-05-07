@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     var request_code = 101
     var PROXIMITY_RADIUS = 100000
     var lat : Double = 39.1902658
-    var lng : Double = 76.6100414
+    var lng : Double = -76.6100414
     lateinit var fusedLocationProviderClient : FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
