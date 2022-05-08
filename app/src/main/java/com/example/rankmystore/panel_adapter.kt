@@ -1,4 +1,6 @@
 package com.example.rankmystore
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
@@ -11,9 +13,12 @@ import java.io.IOException
 import java.io.InputStream
 
 class panel_adapter(private val storeList: List<StoreEntry>): RecyclerView.Adapter<StoreCardHolder>(){
+    private lateinit var mContext: Context
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreCardHolder {
         val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.store_panel, parent, false)
-
+        mContext = parent.context
         return StoreCardHolder(layoutView)
     }
 
@@ -35,7 +40,10 @@ class panel_adapter(private val storeList: List<StoreEntry>): RecyclerView.Adapt
 
         //
         holder.itemView.setOnClickListener{
-            holder.storeTitle.text = "clicked on this card"
+            val storeViewIntent: Intent = Intent(mContext, StoreViewActivity::class.java)
+            storeViewIntent.putExtra("STORE_NAME", holder.storeTitle.text)
+            storeViewIntent.putExtra("STORE_COORDINATES", holder.productDesc.text)
+            mContext.startActivity(storeViewIntent)
 
         }
 
