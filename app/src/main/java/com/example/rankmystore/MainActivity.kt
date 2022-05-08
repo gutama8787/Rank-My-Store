@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         // Initialize the SDK
-        val key = "_key_"
+        val key = "AIzaSyBORW6PHdIIcO2wV8x_QSg8l_pW3NtYL9A"
         Places.initialize(applicationContext, key)
 
         //get list of stores nearby
@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         var nbp : GetNearbyPlaces = GetNearbyPlaces()
         nbp.execute(*dataTransfer)
+        Thread.sleep(1000)
 
         Log.d("storeList", "after size: " + storeList.size)
         //set up fragment for scrollable cards
@@ -76,8 +77,6 @@ class MainActivity : AppCompatActivity() {
         //get nearby places
         Log.d("storeList", "fragment size: " + MainActivity.storeList)
         val storeList = MainActivity.storeList
-
-        storeList.add(StoreEntry())
 
         val adapter = panel_adapter(storeList)
         recyclerView.adapter = adapter
@@ -200,7 +199,7 @@ class MainActivity : AppCompatActivity() {
         googlePlaceUrl.append("&radius=" + PROXIMITY_RADIUS)
         googlePlaceUrl.append("&type=" + nearbyPlace)
         googlePlaceUrl.append("&sensor=true")
-        googlePlaceUrl.append("&key=" + "_key_")
+        googlePlaceUrl.append("&key=" + "AIzaSyBORW6PHdIIcO2wV8x_QSg8l_pW3NtYL9A")
 
         return googlePlaceUrl.toString()
     }
