@@ -46,7 +46,7 @@ class AddReviewActivity : AppCompatActivity() {
         var comment = commentInputEditText!!.text!!.toString()
         var ratingValue = ratingBar!!.rating
 
-        submit!!.setOnClickListener({ addRating() })
+        submit!!.setOnClickListener({ addReview() })
 
 //        addData()
 //        readData()
@@ -148,16 +148,15 @@ class AddReviewActivity : AppCompatActivity() {
         return false
     }
 
-    private fun addRating() {
+    private fun addReview() {
         // var newRating = Rating("Address1","Address1","${mAuth!!.currentUser!!.email}","apple","picturepath")
 
         if (isUserSignedIn()) {
             var comment = commentInputEditText!!.text!!.toString()
             var ratingValue = ratingBar!!.rating
 
-            var newExRating =
-                AddRatingActivity.RatingEx("${mAuth!!.currentUser!!.email}", ratingValue, comment)
             var review = Review(storeName!!,coordinates!!,ratingValue,comment,"fv9822795e-1fa5-4dd0-89b7-77d0133f19f5.jpg")
+            Log.i(TAG,"Adding review in addReview")
             addData(review)
         }
     }
@@ -177,8 +176,9 @@ class AddReviewActivity : AppCompatActivity() {
     }
 
     private fun addData(review: Review) {
-        val uploadResult = dbProvider.uploadImage(fruitImg)
-        Log.i(TAG,"upload success $uploadResult")
+        // val uploadResult = dbProvider.uploadImage(fruitImg)
+        // Log.i(TAG,"upload success $uploadResult")
+        Log.i(TAG,"Adding review in addData")
 // Add a new document with a generated ID
         Log.i(TAG,"adding to db...")
         db!!.collection("Review")
