@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Transformations.map
@@ -55,6 +56,13 @@ class StoreViewActivity: FragmentActivity(), OnMapReadyCallback {
         lat = coordsArray[0]!!.toDouble()
         lng = coordsArray[1]!!.toDouble()
 
+        reviewsTextView.setOnClickListener() {
+            val startReviewActivity: Intent = Intent(this, ReviewActivity::class.java)
+            startReviewActivity.putExtra("STORE_NAME", storeName)
+            startReviewActivity.putExtra("STORE_COORDINATES", coordinates)
+            startActivity(startReviewActivity)
+        }
+
         leaveReviewBtn.setOnClickListener() {
 
             val leaveReviewIntent: Intent = Intent(this, AddReviewActivity::class.java)
@@ -68,17 +76,8 @@ class StoreViewActivity: FragmentActivity(), OnMapReadyCallback {
         val dbHelper: DatabaseProvider = DatabaseProvider()
 
         // query the database
-
         dbHelper.getStoreRatings(storeName!!, coordinates, ratingBar, reviewsTextView, true)
         dbHelper.getStoreRatings(storeName!!, coordinates, ratingBar, reviewsTextView, false)
-
-
-
-
-
-
-        // need to retrieve results
-
 
         // Initialize the SDK
         val key = "AIzaSyCMEYURMvccFilVqreWH0j3Mi64cM2Zj5Y"
@@ -134,12 +133,9 @@ class StoreViewActivity: FragmentActivity(), OnMapReadyCallback {
 
         val location = LatLng(lat, lng)
 
-
-
-
         if (map != null) {
 
-            val options = GoogleMapOptions()
+            map.addMarker(MarkerOptions().position(location))
 
             val cameraPosition = CameraPosition.Builder()
                 .target(location) // Sets the center of the map to Mountain View
