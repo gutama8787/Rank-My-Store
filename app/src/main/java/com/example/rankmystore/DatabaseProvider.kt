@@ -58,13 +58,13 @@ class DatabaseProvider {
     }
 
     // save rating
-    public fun saveReview(rating: Rating, fruitImage: Bitmap) {
+    public fun saveReview(review: Review, fruitImage: Bitmap) {
         // save the image in firebase storage associate it with the id of the image.
         // store the Rating in fireStore and associate it with the id of the rating
         Log.i(TAG,"adding to db...")
         var ratingId: String?  = null
         mDb!!.collection("Review")
-            .add(rating)
+            .add(review)
             .addOnSuccessListener { documentReference ->
                 Log.d(
                     TAG,
