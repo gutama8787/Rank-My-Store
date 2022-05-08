@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     var lat : Double = 39.1902658
     var lng : Double = -76.6100414
     lateinit var fusedLocationProviderClient : FusedLocationProviderClient
+    lateinit var storeViewIntent : Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         searchBar = findViewById(R.id.search_bar)
         searchButton = findViewById(R.id.containedButton)
         bottomTabs = findViewById(R.id.bottom_navigation)
+
 
         //fused initialized
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -84,16 +86,14 @@ class MainActivity : AppCompatActivity() {
         //autocomplete search bar
 
         searchBar.setOnClickListener{
-            var fieldList :List<Place.Field> = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.ADDRESS)
+            var fieldList :List<Place.Field> = Arrays.asList(Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS)
             val intent: Intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fieldList).build(this)
             startActivityForResult(intent, requestCode)
         }
 
         //Button On CLick Listener
         searchButton.setOnClickListener{
-            var searchText = searchBar.text.toString()
-
-
+            this.startActivity(storeViewIntent)
         }
 
 
@@ -126,9 +126,16 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == requestCode && resultCode == RESULT_OK){
             var place: Place = Autocomplete.getPlaceFromIntent(data)
-            searchBar.setText(place.latLng.toString())
-
-            //searchBar.setText(place.address)
+            searchBar.setText(place.name.toString())
+            var lat = place.latLng.latitude.toString()
+            var lng = place.latLng.longitude.toString()
+            var coordinates = lat + "," + lng
+            Log.d("coordinates", coordinates)
+            var name: String? = place.name
+            searchBar.setText(place.address)
+            storeViewIntent = Intent(this.applicationContext, StoreViewActivity::class.java)
+            storeViewIntent.putExtra("STORE_NAME", name)
+            storeViewIntent.putExtra("STORE_COORDINATES", coordinates)
         }
     }
 
