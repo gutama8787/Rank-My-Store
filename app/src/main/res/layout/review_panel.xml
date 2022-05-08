@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="330dp"
+android:layout_marginRight="5dp"
+android:layout_marginLeft="5dp"
+android:layout_marginBottom="5dp"
+app:cardBackgroundColor="@android:color/white"
+app:cardElevation="20dp"
+app:cardPreventCornerOverlap="true">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/cardImage_"
+        android:layout_width="match_parent"
+        android:layout_height="174dp"
+        android:background="@color/shadow"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="25dp">
+
+        <TextView
+            android:id="@+id/cardTitle_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title"
+            android:textSize="23dp"
+            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+        <TextView
+            android:id="@+id/cardDescription_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:textSize="15dp"
+            android:textAppearance="?attr/textAppearanceBody2" />
+
+        <TextView
+            android:id="@+id/rating_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:textSize="15dp"
+            android:textAppearance="?attr/textAppearanceBody2" />
+    </LinearLayout>
+</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

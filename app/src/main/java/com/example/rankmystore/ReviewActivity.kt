@@ -1,55 +1,52 @@
 package com.example.rankmystore
 
-import android.graphics.Bitmap
+import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
-class DatabaseTesterActivity : AppCompatActivity() {
+class ReviewActivity : AppCompatActivity() {
     var editTextTextPersonName: EditText? = null
     var search: Button? = null
     private lateinit var adapter: ReviewAdapter
-
+    lateinit var bottomTabs : BottomNavigationView
+    var storeNameTextView: TextView? = null
     var db: FirebaseFirestore? = null
     var mAuth: FirebaseAuth? = null
     var mStr: FirebaseStorage? = null
     var TAG = "add"
-
     var reviewList: ArrayList<StoreEntry>? = ArrayList<StoreEntry>()
+    var storeCoord: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_database_tester)
+        setContentView(R.layout.activity_review)
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         mStr = FirebaseStorage.getInstance()
 
+//        var storeName = intent.getStringExtra("STORE_NAME")
+//        var coordinates = intent.getStringExtra("STORE_COORDINATES")
+        storeCoord = intent.getStringExtra("STORE_COORDINATES")
+
+        bottomTabs = findViewById(R.id.bottom_navigation)
         editTextTextPersonName = findViewById(R.id.editTextTextPersonName)
         search = findViewById(R.id.search)
-
-
 
         val recyclerView : RecyclerView = findViewById(R.id.recycler_view)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(this, 1, RecyclerView.VERTICAL, false)
-
-
-        //get nearby places
-//        Log.d("storeList", "fragment size yee: " + MainActivity.storeList)
-
-        var review1 = StoreEntry()
-        var review2 = StoreEntry()
 
 
         val storeList = reviewList // reviewList
@@ -57,7 +54,28 @@ class DatabaseTesterActivity : AppCompatActivity() {
         adapter = ReviewAdapter(storeList as List<StoreEntry>)
         recyclerView.adapter = adapter
 
-        search!!.setOnClickListener({ displayReviews() })
+        bottomTabs.setOnNavigationItemSelectedListener {
+                item ->
+            when(item.itemId){
+                R.id.page_1 -> {
+//                    searchBar.setText("")
+//                    searchBar.performClick()
+                    false
+                }
+                R.id.page_2 -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    true
+                }
+                R.id.page_3 -> {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+
     }
 
     private fun displayReviews() {
@@ -65,7 +83,7 @@ class DatabaseTesterActivity : AppCompatActivity() {
         var name = editTextTextPersonName!!.text!!.toString()
 
         db!!.collection("Review")
-            .whereEqualTo("storeName",name)
+            .whereEqualTo("coordinates",storeCoord)
             .get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
