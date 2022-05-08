@@ -9,7 +9,7 @@ class StoreCardHolder(storeView : View) : RecyclerView.ViewHolder(storeView), Vi
     var storeTitle: TextView = storeView.findViewById(R.id.cardTitle)
     var productDesc: TextView = storeView.findViewById(R.id.cardDescription)
     var image: ImageView = storeView.findViewById(R.id.cardImage)
-
+    var latLng : String = ""
 
     override fun onClick(v: View) {
         storeTitle.setText("clicked on this card!")

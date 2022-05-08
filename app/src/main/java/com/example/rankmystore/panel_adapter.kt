@@ -28,6 +28,7 @@ class panel_adapter(private val storeList: List<StoreEntry>): RecyclerView.Adapt
             val store = storeList[position]
             holder.storeTitle.text = store.storeName
             holder.productDesc.text = store.lat.toString() + "," + store.lng.toString()
+            holder.latLng = store.lat.toString() + "," + store.lng.toString()
 
             //set image
             var loadImage: LoadImage = LoadImage()
@@ -42,7 +43,7 @@ class panel_adapter(private val storeList: List<StoreEntry>): RecyclerView.Adapt
         holder.itemView.setOnClickListener{
             val storeViewIntent: Intent = Intent(mContext, StoreViewActivity::class.java)
             storeViewIntent.putExtra("STORE_NAME", holder.storeTitle.text)
-            storeViewIntent.putExtra("STORE_COORDINATES", holder.productDesc.text)
+            storeViewIntent.putExtra("STORE_COORDINATES", holder.latLng)
             mContext.startActivity(storeViewIntent)
 
         }
