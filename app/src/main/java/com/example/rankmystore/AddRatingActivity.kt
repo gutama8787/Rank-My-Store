@@ -1,6 +1,7 @@
 package com.example.rankmystore
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -8,25 +9,32 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 
 class AddRatingActivity : AppCompatActivity() {
     var db: FirebaseFirestore? = null
     var mAuth: FirebaseAuth? = null
+    var mStr: FirebaseStorage? = null
     var commentInputEditText: EditText? = null
     var imageView: ImageView? = null
     var cameraButton: ImageButton? = null
     var gallaryButton: ImageButton? = null
     var ratingBar: RatingBar? = null
+    var progressBar: ProgressBar? = null
     var submit: Button? = null
+//    var progressDialog: ProgressDialog? = null
 //    var dbProvider: DatabaseProvider? = null
     var fruitImg: Bitmap? = null
     var mImageUri: Uri? = null
-    val dbProvider : DatabaseProvider = DatabaseProvider()
     val TAG = "AddRatingActivity"
     val REQUEST_CODE_CAMERA = 12
     val REQUEST_CODE_PICK_IMAGE = 55
@@ -37,11 +45,11 @@ class AddRatingActivity : AppCompatActivity() {
         // initialize database and UI
         initDbAndUI()
 //        dbProvider = DatabaseProvider()
-        var comment = commentInputEditText!!.text!!.toString()
-        var ratingValue = ratingBar!!.rating
-
-        submit!!.setOnClickListener({ addRating() })
-
+        mStr = FirebaseStorage.getInstance()
+        submit!!.setOnClickListener( View.OnClickListener { view ->
+            progressBar!!.isVisible = true
+            addRating(view)
+        })
 //        addData()
 //        readData()
         if (mAuth != null) {
@@ -99,10 +107,12 @@ class AddRatingActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_CAMERA) {
             val img = data!!.extras!!.get("data") as Bitmap
+            fruitImg = img
             imageView!!.setImageBitmap(img)
         } else if(resultCode == RESULT_OK && requestCode == REQUEST_CODE_PICK_IMAGE && data != null) {
             var imgUri = data!!.data
             var mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+            Log.i("add","image is being set ..")
             fruitImg = mBitmap
             imageView!!.setImageBitmap(mBitmap)
         }
@@ -118,6 +128,7 @@ class AddRatingActivity : AppCompatActivity() {
         gallaryButton = findViewById(R.id.gallaryButton)
         ratingBar = findViewById(R.id.ratingBar)
         submit = findViewById(R.id.submit)
+        progressBar = findViewById(R.id.progressBar)
     }
 
     private fun isUserSignedIn(): Boolean {
@@ -137,9 +148,9 @@ class AddRatingActivity : AppCompatActivity() {
         return false
     }
 
-    private fun addRating() {
+    private fun addRating(v: View) {
         // var newRating = Rating("Address1","Address1","${mAuth!!.currentUser!!.email}","apple","picturepath")
-
+        progressBar!!.setVisibility(View.VISIBLE);
         if (isUserSignedIn()) {
             var comment = commentInputEditText!!.text!!.toString()
             var ratingValue = ratingBar!!.rating
@@ -164,8 +175,8 @@ class AddRatingActivity : AppCompatActivity() {
     }
 
     private fun addData(newRating: RatingEx) {
-        val uploadResult = dbProvider.uploadImage(fruitImg)
-        Log.i(TAG,"upload success $uploadResult")
+        // val uploadResult = dbProvider.uploadImage(fruitImg)
+        // Log.i(TAG,"upload success $uploadResult")
 // Add a new document with a generated ID
         Log.i(TAG,"adding to db...")
         db!!.collection("Rating")
@@ -175,14 +186,51 @@ class AddRatingActivity : AppCompatActivity() {
                     TAG,
                     "DocumentSnapshot added with ID: " + documentReference.id
                 )
-                addImage()
+                Toast.makeText(this,"rating added",Toast.LENGTH_LONG)
+                uploadImage(documentReference.id)
             }
             .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }
     }
 
-    private fun addImage() {
-//        TODO("Not yet implemented")
+    fun uploadImage(id: String) {
 
+        if (fruitImg == null) {
+            Log.i("add","image is null!!")
+            Toast.makeText(this,"Image not provided",Toast.LENGTH_LONG)
+            return
+        }
+        // Create a storage reference from our app
+        val storageRef = mStr!!.reference
+
+        val uuid = UUID.randomUUID().toString()
+
+        // Create a reference to "mountains.jpg"
+        val fruitVegRef = storageRef.child("$id.jpg")
+
+        // Create a reference to 'images/mountains.jpg'
+        val mountainImagesRef = storageRef.child("images/$id.jpg")
+
+        val baos = ByteArrayOutputStream()
+        fruitImg!!.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        var uploadTask = fruitVegRef.putBytes(data)
+        Log.i("add","uploading image!!")
+        uploadTask.addOnFailureListener {
+            // Handle unsuccessful uploads
+            Log.i("add","failed to upload")
+            Toast.makeText(this,"failed to uploaded",Toast.LENGTH_LONG)
+            progressBar!!.isVisible = false
+        }.addOnSuccessListener { taskSnapshot ->
+            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+            // ...
+            Log.i("add","successfully upload")
+            // progressBar!!.setVisibility(View.INVISIBLE);
+            Toast.makeText(this,"successfully uploaded",Toast.LENGTH_LONG)
+            progressBar!!.isVisible = false
+            // finish()
+
+        }
     }
 
     // Users add ratings

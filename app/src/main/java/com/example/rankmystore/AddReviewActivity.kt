@@ -9,30 +9,39 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 
 class AddReviewActivity : AppCompatActivity() {
     var db: FirebaseFirestore? = null
     var mAuth: FirebaseAuth? = null
+    var mStr: FirebaseStorage? = null
     var commentInputEditText: EditText? = null
     var imageView: ImageView? = null
     var cameraButton: ImageButton? = null
     var gallaryButton: ImageButton? = null
     var ratingBar: RatingBar? = null
+    var progressBar: ProgressBar? = null
     var submit: Button? = null
-    var storeName: String? = ""
-    var coordinates: String? = ""
-    //    var dbProvider: DatabaseProvider? = null
+
     var fruitImg: Bitmap? = null
     var mImageUri: Uri? = null
     val dbProvider : DatabaseProvider = DatabaseProvider()
     val TAG = "AddRatingActivity"
     val REQUEST_CODE_CAMERA = 12
     val REQUEST_CODE_PICK_IMAGE = 55
+
+    var storeName: String? = null
+    var coordinates: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,14 +51,13 @@ class AddReviewActivity : AppCompatActivity() {
         coordinates = intent.getStringExtra("STORE_COORDINATES")
 
         initDbAndUI()
-//        dbProvider = DatabaseProvider()
-        var comment = commentInputEditText!!.text!!.toString()
-        var ratingValue = ratingBar!!.rating
 
-        submit!!.setOnClickListener({ addReview() })
+        mStr = FirebaseStorage.getInstance()
+        submit!!.setOnClickListener( View.OnClickListener { view ->
+            progressBar!!.setVisibility(View.VISIBLE)
+            addReview()
+        })
 
-//        addData()
-//        readData()
         if (mAuth != null) {
             if (mAuth!!.currentUser != null) {
                 Log.i(TAG,"${mAuth!!.currentUser!!.email}")
@@ -105,15 +113,12 @@ class AddReviewActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_CAMERA) {
             val img = data!!.extras!!.get("data") as Bitmap
+            fruitImg = img
             imageView!!.setImageBitmap(img)
         } else if(resultCode == RESULT_OK && requestCode == REQUEST_CODE_PICK_IMAGE && data != null) {
             var imgUri = data!!.data
             var mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
-            fruitImg = mBitmap
-            imageView!!.setImageBitmap(mBitmap)
-        } else if(resultCode == RESULT_OK && requestCode == REQUEST_CODE_PICK_IMAGE && data != null) {
-            var imgUri = data!!.data
-            var mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+            Log.i("add","image is being set ..")
             fruitImg = mBitmap
             imageView!!.setImageBitmap(mBitmap)
         }
@@ -129,6 +134,7 @@ class AddReviewActivity : AppCompatActivity() {
         gallaryButton = findViewById(R.id.gallaryButton)
         ratingBar = findViewById(R.id.ratingBar)
         submit = findViewById(R.id.submit)
+        progressBar = findViewById(R.id.progressBar)
     }
 
     private fun isUserSignedIn(): Boolean {
@@ -158,7 +164,6 @@ class AddReviewActivity : AppCompatActivity() {
             var review = Review(storeName!!,coordinates!!,ratingValue,comment,"fv9822795e-1fa5-4dd0-89b7-77d0133f19f5.jpg")
             Log.i(TAG,"Adding review in addReview")
             addData(review)
-            finish()
         }
     }
 
@@ -177,10 +182,7 @@ class AddReviewActivity : AppCompatActivity() {
     }
 
     private fun addData(review: Review) {
-        // val uploadResult = dbProvider.uploadImage(fruitImg)
-        // Log.i(TAG,"upload success $uploadResult")
-        Log.i(TAG,"Adding review in addData")
-// Add a new document with a generated ID
+
         Log.i(TAG,"adding to db...")
         db!!.collection("Review")
             .add(review)
@@ -189,13 +191,49 @@ class AddReviewActivity : AppCompatActivity() {
                     TAG,
                     "DocumentSnapshot added with ID: " + documentReference.id
                 )
-                addImage()
+                Toast.makeText(this,"rating added",Toast.LENGTH_LONG)
+                uploadImage(documentReference.id)
             }
             .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }
     }
 
-    private fun addImage() {
-//        TODO("Not yet implemented")
+    fun uploadImage(id: String) {
 
+        if (fruitImg == null) {
+            Log.i("add","image is null!!")
+            Toast.makeText(this,"Image not provided",Toast.LENGTH_LONG)
+            return
+        }
+        // Create a storage reference from our app
+        val storageRef = mStr!!.reference
+
+        val uuid = UUID.randomUUID().toString()
+
+        // Create a reference to "mountains.jpg"
+        val fruitVegRef = storageRef.child("$id.jpg")
+
+        // Create a reference to 'images/mountains.jpg'
+        val mountainImagesRef = storageRef.child("images/$id.jpg")
+
+        val baos = ByteArrayOutputStream()
+        fruitImg!!.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        var uploadTask = fruitVegRef.putBytes(data)
+        Log.i("add","uploading image!!")
+        uploadTask.addOnFailureListener {
+            // Handle unsuccessful uploads
+            Log.i("add","failed to upload")
+            Toast.makeText(this,"failed to uploaded",Toast.LENGTH_LONG)
+            progressBar!!.isVisible = false
+        }.addOnSuccessListener { taskSnapshot ->
+            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+            // ...
+            Log.i("add","successfully upload")
+            // progressBar!!.setVisibility(View.INVISIBLE);
+            Toast.makeText(this,"successfully uploaded",Toast.LENGTH_LONG)
+            progressBar!!.isVisible = false
+            finish()
+        }
     }
 }
