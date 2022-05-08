@@ -24,6 +24,8 @@ class AddReviewActivity : AppCompatActivity() {
     var gallaryButton: ImageButton? = null
     var ratingBar: RatingBar? = null
     var submit: Button? = null
+    var storeName: String? = ""
+    var coordinates: String? = ""
     //    var dbProvider: DatabaseProvider? = null
     var fruitImg: Bitmap? = null
     var mImageUri: Uri? = null
@@ -36,6 +38,9 @@ class AddReviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_review)
         // initialize database and UI
+        storeName = intent.getStringExtra("STORE_NAME")
+        coordinates = intent.getStringExtra("STORE_COORDINATES")
+
         initDbAndUI()
 //        dbProvider = DatabaseProvider()
         var comment = commentInputEditText!!.text!!.toString()
@@ -55,7 +60,7 @@ class AddReviewActivity : AppCompatActivity() {
             }
         }
         else {
-            Log.i("AddRatingActivity","Not logged in")
+            Log.i("AddReviewActivity","Not logged in")
         }
 
         cameraButton!!.setOnClickListener({takePicture()})
@@ -106,6 +111,11 @@ class AddReviewActivity : AppCompatActivity() {
             var mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
             fruitImg = mBitmap
             imageView!!.setImageBitmap(mBitmap)
+        } else if(resultCode == RESULT_OK && requestCode == REQUEST_CODE_PICK_IMAGE && data != null) {
+            var imgUri = data!!.data
+            var mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+            fruitImg = mBitmap
+            imageView!!.setImageBitmap(mBitmap)
         }
     }
 
@@ -145,8 +155,10 @@ class AddReviewActivity : AppCompatActivity() {
             var comment = commentInputEditText!!.text!!.toString()
             var ratingValue = ratingBar!!.rating
 
-            var newExRating = RatingEx("${mAuth!!.currentUser!!.email}",ratingValue, comment)
-            addData(newExRating)
+            var newExRating =
+                AddRatingActivity.RatingEx("${mAuth!!.currentUser!!.email}", ratingValue, comment)
+            var review = Review(storeName!!,coordinates!!,ratingValue,comment,"fv9822795e-1fa5-4dd0-89b7-77d0133f19f5.jpg")
+            addData(review)
         }
     }
 
@@ -164,13 +176,13 @@ class AddReviewActivity : AppCompatActivity() {
             }
     }
 
-    private fun addData(newRating: RatingEx) {
+    private fun addData(review: Review) {
         val uploadResult = dbProvider.uploadImage(fruitImg)
         Log.i(TAG,"upload success $uploadResult")
 // Add a new document with a generated ID
         Log.i(TAG,"adding to db...")
-        db!!.collection("Rating")
-            .add(newRating)
+        db!!.collection("Review")
+            .add(review)
             .addOnSuccessListener { documentReference ->
                 Log.d(
                     TAG,
@@ -183,25 +195,6 @@ class AddReviewActivity : AppCompatActivity() {
 
     private fun addImage() {
 //        TODO("Not yet implemented")
-
-    }
-
-    // Users add ratings
-    // rating has, rating value, store name, and user who rated it.
-    // Rating class
-
-    /***
-     * PictureID:
-     * We can't store large files in firestore, therefore, we will use firebase storage to storegae to do that.
-     * Then associate the the pictureID in storage to firestore.
-     * contributor is a person who adds the rating.
-     *
-     */
-    class Rating(var storeName: String, var storeAddress: String, var contributor: String, var fruitName: String, var pictureId: String) {
-
-    }
-
-    class RatingEx(var user: String, var rate: Float, var commetn: String) {
 
     }
 }
