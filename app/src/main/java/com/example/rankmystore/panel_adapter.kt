@@ -27,7 +27,7 @@ class panel_adapter(private val storeList: List<StoreEntry>): RecyclerView.Adapt
         if(position < storeList.size){
             val store = storeList[position]
             holder.storeTitle.text = store.storeName
-            holder.productDesc.text = store.lat.toString() + "," + store.lng.toString()
+            holder.productDesc.text = "Rating : "
             holder.latLng = store.lat.toString() + "," + store.lng.toString()
 
             //set image

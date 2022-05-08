@@ -21,7 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 //import com.google.common.io.Files.map
 
 class StoreViewActivity: FragmentActivity(), OnMapReadyCallback {
-
+    //comment
     private lateinit var storeNameTextView: TextView
     private lateinit var adapter: panel_adapter
     private lateinit var leaveReviewBtn: Button

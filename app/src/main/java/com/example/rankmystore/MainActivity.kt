@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     var lat : Double = 39.1902658
     var lng : Double = -76.6100414
     lateinit var fusedLocationProviderClient : FusedLocationProviderClient
-    lateinit var storeViewIntent : Intent
+    var storeViewIntent : Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +93,9 @@ class MainActivity : AppCompatActivity() {
 
         //Button On CLick Listener
         searchButton.setOnClickListener{
-            this.startActivity(storeViewIntent)
+            if(storeViewIntent != null) {
+                this.startActivity(storeViewIntent)
+            }
         }
 
 
@@ -134,8 +136,8 @@ class MainActivity : AppCompatActivity() {
             var name: String? = place.name
             searchBar.setText(place.address)
             storeViewIntent = Intent(this.applicationContext, StoreViewActivity::class.java)
-            storeViewIntent.putExtra("STORE_NAME", name)
-            storeViewIntent.putExtra("STORE_COORDINATES", coordinates)
+            storeViewIntent!!.putExtra("STORE_NAME", name)
+            storeViewIntent!!.putExtra("STORE_COORDINATES", coordinates)
         }
     }
 
