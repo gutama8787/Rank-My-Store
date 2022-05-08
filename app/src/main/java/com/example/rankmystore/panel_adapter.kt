@@ -38,7 +38,7 @@ class panel_adapter(private val storeList: List<StoreEntry>): RecyclerView.Adapt
             holder.image.setImageBitmap(bitmap)
         }
 
-        //
+        //comment
         holder.itemView.setOnClickListener{
             val storeViewIntent: Intent = Intent(mContext, StoreViewActivity::class.java)
             storeViewIntent.putExtra("STORE_NAME", holder.storeTitle.text)
