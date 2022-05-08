@@ -4,10 +4,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
+import android.widget.RatingBar
+import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
+import java.lang.Thread.sleep
 import java.util.*
 
 
@@ -120,20 +123,44 @@ class DatabaseProvider {
     }
 
     // get ratings for specific store provided store name and address
-    public fun getStoreRatings(name :String, address: String) {
-        mDb!!.collection("Rating")
-            .whereEqualTo("storeName",name)
+    public fun getStoreRatings(name :String, address: String, ratingBar: RatingBar,
+                               textView: TextView, isForAvg: Boolean) : ArrayList<Float>{
+        var ratings: ArrayList<Float> = ArrayList<Float>()
+        var sum = 0.0f
+        var avg = 0.0f
+        var x = mDb!!.collection("Review")
+            .whereEqualTo("coordinates",address)
             .get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     for (document in task.result) {
-                        Log.d(TAG, document.id + " => " + document.data)
+
+                        ratings.add(((document.data["rating"] as Double).toFloat()))
+                        Log.d(TAG, "ratings size: " + ratings.size)
+                        Log.d(TAG, document.id + " => " + (document.data["rating"] as Double).toFloat())
+
+                        sum += (document.data["rating"] as Double).toFloat()
                     }
+
+                    if (isForAvg == true) {
+                        if (ratings.size != 0) {
+                            avg = (sum / ratings.size)
+                            ratingBar.rating = avg
+                        } else {
+                            ratingBar.rating = 5.0f
+                        }
+                    } else {
+                        textView.text = ratings.size.toString() + " reviews"
+                    }
+
                 } else {
                     Log.w(TAG, "Error getting documents.", task.exception)
                 }
             }
+
+        return ratings
     }
 
 
 }
+

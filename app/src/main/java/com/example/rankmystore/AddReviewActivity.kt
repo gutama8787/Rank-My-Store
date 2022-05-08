@@ -158,6 +158,7 @@ class AddReviewActivity : AppCompatActivity() {
             var review = Review(storeName!!,coordinates!!,ratingValue,comment,"fv9822795e-1fa5-4dd0-89b7-77d0133f19f5.jpg")
             Log.i(TAG,"Adding review in addReview")
             addData(review)
+            finish()
         }
     }
 

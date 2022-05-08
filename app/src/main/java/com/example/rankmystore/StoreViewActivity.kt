@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
@@ -25,6 +26,8 @@ class StoreViewActivity: FragmentActivity(), OnMapReadyCallback {
     private lateinit var storeNameTextView: TextView
     private lateinit var adapter: panel_adapter
     private lateinit var leaveReviewBtn: Button
+    private lateinit var ratingBar: RatingBar
+    private lateinit var reviewsTextView: TextView
     lateinit var bottomTabs : BottomNavigationView
 
     private var lat: Double = 0.0
@@ -39,6 +42,8 @@ class StoreViewActivity: FragmentActivity(), OnMapReadyCallback {
         leaveReviewBtn = findViewById(R.id.leave_review_btn)
         bottomTabs = findViewById(R.id.bottom_navigation)
         storeNameTextView = findViewById(R.id.store_name)
+        reviewsTextView = findViewById(R.id.reviewsTextView)
+        ratingBar = findViewById(R.id.ratingBar)
 
         map.getMapAsync(this)
 
@@ -58,6 +63,21 @@ class StoreViewActivity: FragmentActivity(), OnMapReadyCallback {
             startActivity(leaveReviewIntent)
 
         }
+
+        // query database to get rating based on coordinates
+        val dbHelper: DatabaseProvider = DatabaseProvider()
+
+        // query the database
+        dbHelper.getStoreRatings(storeName!!, coordinates, ratingBar, reviewsTextView, true)
+        dbHelper.getStoreRatings(storeName!!, coordinates, ratingBar, reviewsTextView, false)
+
+
+
+
+
+
+        // need to retrieve results
+
 
         // Initialize the SDK
         val key = "AIzaSyCMEYURMvccFilVqreWH0j3Mi64cM2Zj5Y"
