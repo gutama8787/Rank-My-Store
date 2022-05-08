@@ -89,8 +89,7 @@
 
     //bottom tabs
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
@@ -102,8 +101,7 @@
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:menu="@menu/bottom_navigation_menu"
-            />
+            app:menu="@menu/bottom_navigation_menu" />
 
     </LinearLayout>
 </RelativeLayout>

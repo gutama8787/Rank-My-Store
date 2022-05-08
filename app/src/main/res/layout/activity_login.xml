@@ -84,16 +84,24 @@ tools:context=".MainActivity">
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/floatingActionButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_horizontal"-->
-<!--        android:contentDescription="@string/email_icon"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/or"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/login_text"-->
-<!--        app:srcCompat="@android:drawable/ic_dialog_email" />-->
+    <LinearLayout
+        android:id="@+id/bottom_navigation_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/bottom_navigation_menu" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
