@@ -13,6 +13,7 @@ class DataParser {
         var latitude: String = ""
         var longitude: String = ""
         var reference : String = ""
+        var url: String = ""
 
         if(!googlePlacesJson.isNull("name")){
             placeName = googlePlacesJson.getString("name")
@@ -25,12 +26,17 @@ class DataParser {
         longitude = googlePlacesJson.getJSONObject("geometry").getJSONObject("location").getString("lng")
 
         reference = googlePlacesJson.getString("reference")
+        url = googlePlacesJson.getString("icon")
+        Log.d("hashmap url put", url)
 
         googlePlacesMap.put("place_name", placeName)
         googlePlacesMap.put("vicinity", vicinity)
         googlePlacesMap.put("lat", latitude)
         googlePlacesMap.put("lng", longitude)
         googlePlacesMap.put("reference", reference)
+        googlePlacesMap.put("url", url)
+
+
 
         return googlePlacesMap
     }

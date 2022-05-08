@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         var nbp : GetNearbyPlaces = GetNearbyPlaces()
         nbp.execute(*dataTransfer)
+        Thread.sleep(1000)
 
         Log.d("storeList", "after size: " + storeList.size)
         //set up fragment for scrollable cards
@@ -76,8 +77,6 @@ class MainActivity : AppCompatActivity() {
         //get nearby places
         Log.d("storeList", "fragment size: " + MainActivity.storeList)
         val storeList = MainActivity.storeList
-
-        storeList.add(StoreEntry())
 
         val adapter = panel_adapter(storeList)
         recyclerView.adapter = adapter
