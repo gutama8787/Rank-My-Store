@@ -150,8 +150,10 @@ class DatabaseProvider {
                         } else {
                             ratingBar.rating = 5.0f
                         }
+                    } else if (ratings.size != 0){
+                        textView.text = ratings.size.toString() + " review(s)"
                     } else {
-                        textView.text = ratings.size.toString() + " reviews"
+                        textView.text = "No reviews"
                     }
 
                 } else {
