@@ -161,7 +161,5 @@ class DatabaseProvider {
 
         return ratings
     }
-
-
 }
 
