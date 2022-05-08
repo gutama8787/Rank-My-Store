@@ -123,6 +123,7 @@ class DatabaseProvider {
     }
 
     // get ratings for specific store provided store name and address
+    //
     public fun getStoreRatings(name :String, address: String, ratingBar: RatingBar,
                                textView: TextView, isForAvg: Boolean) : ArrayList<Float>{
         var ratings: ArrayList<Float> = ArrayList<Float>()

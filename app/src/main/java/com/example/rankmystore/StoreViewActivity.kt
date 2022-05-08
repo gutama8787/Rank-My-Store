@@ -68,6 +68,7 @@ class StoreViewActivity: FragmentActivity(), OnMapReadyCallback {
         val dbHelper: DatabaseProvider = DatabaseProvider()
 
         // query the database
+
         dbHelper.getStoreRatings(storeName!!, coordinates, ratingBar, reviewsTextView, true)
         dbHelper.getStoreRatings(storeName!!, coordinates, ratingBar, reviewsTextView, false)
 
