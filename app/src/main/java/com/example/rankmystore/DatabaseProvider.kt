@@ -12,6 +12,8 @@ import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 import java.lang.Thread.sleep
 import java.util.*
+import kotlin.math.round
+import kotlin.math.roundToInt
 
 
 /**
@@ -159,9 +161,46 @@ class DatabaseProvider {
                 }
             }
 
+            Thread.sleep(1000)
         return ratings
     }
 
 
+    public fun getCardAvgRating(address: String, textView: TextView) : Float{
+        var ratings: ArrayList<Float> = ArrayList<Float>()
+        var sum = 0.0f
+        var avg = 0.0f
+        var x = mDb!!.collection("Review")
+            .whereEqualTo("coordinates",address)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (document in task.result) {
+
+                        ratings.add(((document.data["rating"] as Double).toFloat()))
+                        Log.d(TAG, "ratings size: " + ratings.size)
+                        Log.d(TAG, document.id + " => " + (document.data["rating"] as Double).toFloat())
+
+                        sum += (document.data["rating"] as Double).toFloat()
+                    }
+
+                    if(sum.compareTo(0.0) != 0) {
+                        avg = (sum / ratings.size)
+                        val roundoff = (avg * 100.0).roundToInt() / 100.0
+                        textView.setText("Rating: " + roundoff)
+                    }else {
+                        textView.setText("No Reviews yet!")
+                    }
+
+
+                } else {
+                    textView.setText("No Reviews yet!")
+                    Log.w(TAG, "Error getting documents.", task.exception)
+                }
+            }
+
+        Thread.sleep(1000)
+        return avg
+    }
 }
 

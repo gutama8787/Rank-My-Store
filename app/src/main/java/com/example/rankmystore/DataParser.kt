@@ -22,6 +22,7 @@ class DataParser {
         if(!googlePlacesJson.isNull("vicinity")){
             vicinity = googlePlacesJson.getString("vicinity")
         }
+
         latitude = googlePlacesJson.getJSONObject("geometry").getJSONObject("location").getString("lat")
         longitude = googlePlacesJson.getJSONObject("geometry").getJSONObject("location").getString("lng")
 
