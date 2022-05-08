@@ -98,7 +98,6 @@ class DatabaseProvider {
             // ...
             Log.i("add","failed upload")
         }
-
     }
     // get current user
     public fun getCurrentUserEmail() {
