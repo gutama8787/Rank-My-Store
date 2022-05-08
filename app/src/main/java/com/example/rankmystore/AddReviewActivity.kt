@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -31,6 +32,7 @@ class AddReviewActivity : AppCompatActivity() {
     var ratingBar: RatingBar? = null
     var progressBar: ProgressBar? = null
     var submit: Button? = null
+    lateinit var bottomTabs : BottomNavigationView
 
     var fruitImg: Bitmap? = null
     var mImageUri: Uri? = null
@@ -49,6 +51,7 @@ class AddReviewActivity : AppCompatActivity() {
         // initialize database and UI
         storeName = intent.getStringExtra("STORE_NAME")
         coordinates = intent.getStringExtra("STORE_COORDINATES")
+        bottomTabs = findViewById(R.id.bottom_navigation)
 
         initDbAndUI()
 
@@ -73,6 +76,28 @@ class AddReviewActivity : AppCompatActivity() {
 
         cameraButton!!.setOnClickListener({takePicture()})
         gallaryButton!!.setOnClickListener({pickImage()})
+
+        bottomTabs.setOnNavigationItemSelectedListener {
+                item ->
+            when(item.itemId){
+                R.id.page_1 -> {
+//                    searchBar.setText("")
+//                    searchBar.performClick()
+                    false
+                }
+                R.id.page_2 -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    true
+                }
+                R.id.page_3 -> {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
     }
 
     private fun pickImage() {

@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -23,11 +24,14 @@ class LoginActivity : AppCompatActivity() {
     var usernameInput: EditText? = null
     var passwordInput: EditText? = null
     var auth: FirebaseAuth? = null
+    lateinit var bottomTabs : BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        auth =  FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
+        bottomTabs = findViewById(R.id.bottom_navigation)
+
 
 
         val loginButton = findViewById<Button>(R.id.login_button)
@@ -35,10 +39,30 @@ class LoginActivity : AppCompatActivity() {
         usernameInput = findViewById(R.id.username)
         passwordInput = findViewById(R.id.password)
 
-        loginButton.setOnClickListener({processLogin()})
-        signupButton.setOnClickListener({processSignup()})
+        loginButton.setOnClickListener({ processLogin() })
+        signupButton.setOnClickListener({ processSignup() })
 
+        bottomTabs.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.page_1 -> {
+//                    searchBar.setText("")
+//                    searchBar.performClick()
+                    false
+                }
+                R.id.page_2 -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    true
+                }
+                R.id.page_3 -> {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
 
+        }
     }
 
     private fun processSignup() {
