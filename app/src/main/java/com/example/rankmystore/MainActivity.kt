@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     var lng : Double = -76.6100414
     lateinit var fusedLocationProviderClient : FusedLocationProviderClient
     var storeViewIntent : Intent? = null
+    val dbProvider : DatabaseProvider = DatabaseProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,8 +113,14 @@ class MainActivity : AppCompatActivity() {
                     false
                 }
                 R.id.page_3 -> {
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    true
+                    if (!dbProvider.isUserSignedIn()) {
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        true
+                    }
+                    else {
+                        startActivity(Intent(this, AccountActivity::class.java))
+                        true
+                    }
                 }
                 else -> {
                     false

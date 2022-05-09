@@ -16,13 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
 class ReviewActivity : AppCompatActivity() {
-    var editTextTextPersonName: EditText? = null
-    var search: Button? = null
+
     private lateinit var adapter: ReviewAdapter
     lateinit var bottomTabs : BottomNavigationView
     var storeNameTextView: TextView? = null
     var storeName: String? = null
-    // storeNameTextView
     var db: FirebaseFirestore? = null
     var mAuth: FirebaseAuth? = null
     var mStr: FirebaseStorage? = null
@@ -42,8 +40,7 @@ class ReviewActivity : AppCompatActivity() {
         storeCoord = intent.getStringExtra("STORE_COORDINATES")
 
         bottomTabs = findViewById(R.id.bottom_navigation)
-        editTextTextPersonName = findViewById(R.id.editTextTextPersonName)
-        search = findViewById(R.id.search)
+
         storeNameTextView = findViewById(R.id.storeNameTextView)
 
         storeNameTextView!!.text = storeName + storeCoord
@@ -61,8 +58,6 @@ class ReviewActivity : AppCompatActivity() {
                 item ->
             when(item.itemId){
                 R.id.page_1 -> {
-//                    searchBar.setText("")
-//                    searchBar.performClick()
                     false
                 }
                 R.id.page_2 -> {

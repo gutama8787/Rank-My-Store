@@ -6,6 +6,7 @@ import android.net.Uri
 import android.util.Log
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -17,11 +18,9 @@ import java.util.*
 /**
  * This class sets an instance of firebase db's used by our app/
  * Supports
- * - registering users
  * - logging in users.
- * - storing user ratings with store information
- * - storing fruit pictures
- *
+ * - gets information from db as well
+ * This is are common functionalities for most activities.
  */
 
 class DatabaseProvider {
@@ -33,16 +32,6 @@ class DatabaseProvider {
         mAuth = FirebaseAuth.getInstance()
         mDb = FirebaseFirestore.getInstance()
         mStr = FirebaseStorage.getInstance()
-    }
-
-
-    // register user
-    public fun registerUser() {
-
-    }
-
-    public fun loginUser(email: String, password: String) {
-
     }
 
     // adds store to the database.
@@ -76,36 +65,7 @@ class DatabaseProvider {
             }
             .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }
     }
-    public fun uploadImage(bitmap: Bitmap?) {
-        // Create a storage reference from our app
-        val storageRef = mStr!!.reference
 
-        val uuid = UUID.randomUUID().toString()
-
-        // Create a reference to "mountains.jpg"
-        val fruitVegRef = storageRef.child("fv$uuid.jpg")
-
-        // Create a reference to 'images/mountains.jpg'
-        val mountainImagesRef = storageRef.child("images/fv$uuid.jpg")
-
-        val baos = ByteArrayOutputStream()
-        bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data = baos.toByteArray()
-
-        var uploadTask = fruitVegRef.putBytes(data)
-        var v = uploadTask.addOnFailureListener {
-            // Handle unsuccessful uploads
-            Log.i("add","success upload")
-        }.addOnSuccessListener { taskSnapshot ->
-            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-            // ...
-            Log.i("add","failed upload")
-        }
-    }
-    // get current user
-    public fun getCurrentUserEmail() {
-
-    }
 
     // returns list of stores with their average rating value, address, and image.
     public fun getAllStores() {
@@ -162,6 +122,23 @@ class DatabaseProvider {
             }
 
         return ratings
+    }
+
+    public fun isUserSignedIn(): Boolean {
+        if (mAuth != null) {
+            if (mAuth!!.currentUser != null) {
+                Log.i(TAG,"${mAuth!!.currentUser!!.email}")
+                return true
+            }
+            else {
+                Log.i(TAG,"Log in or sign up first")
+                return false
+            }
+        }
+        else {
+            Log.i("AddRatingActivity","Not logged in")
+        }
+        return false
     }
 }
 

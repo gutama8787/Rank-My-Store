@@ -106,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         val intent = Intent(
                             this@LoginActivity,
-                            CentralActivity::class.java
+                            MainActivity::class.java
                         )
                         startActivity(intent)
                     }
