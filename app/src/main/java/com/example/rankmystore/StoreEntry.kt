@@ -9,5 +9,5 @@ class StoreEntry {
     var imageUrl: String = ""
     var lat: Double = 0.0
     var lng: Double = 0.0
-
+    var imageKeys: ArrayList<String> = ArrayList()
 }
