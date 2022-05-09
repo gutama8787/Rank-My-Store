@@ -50,7 +50,6 @@ class GetNearbyPlaces: AsyncTask<Object, String, String>() {
             var lat = googlePlace.get("lat")?.toDoubleOrNull()
             var lng = googlePlace.get("lng")?.toDoubleOrNull()
             var url = googlePlace.get("url")
-
             Log.d("store URL", url.toString())
 
             var store : StoreEntry = StoreEntry()
@@ -69,6 +68,9 @@ class GetNearbyPlaces: AsyncTask<Object, String, String>() {
             }else{
                 store.imageUrl = "https://purepng.com/public/uploads/large/big-chungus-jkg.png"
                 Log.d("chungus", store.imageUrl)
+            }
+            if(vicinity != null){
+                store.storeAddress = vicinity
             }
 
             (MainActivity.storeList as MutableList<StoreEntry>).add(store)
