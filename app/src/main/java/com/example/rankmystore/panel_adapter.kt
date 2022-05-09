@@ -28,6 +28,9 @@ class panel_adapter(private val storeList: List<StoreEntry>): RecyclerView.Adapt
             val store = storeList[position]
             holder.storeTitle.text = store.storeName
             holder.productDesc.text = "Rating : "
+            var dbp = DatabaseProvider()
+            var latLng = store.lat.toString() + "," + store.lng.toString()
+            dbp.getCardAvgRating(latLng, holder.productDesc)
             holder.latLng = store.lat.toString() + "," + store.lng.toString()
 
             //set image

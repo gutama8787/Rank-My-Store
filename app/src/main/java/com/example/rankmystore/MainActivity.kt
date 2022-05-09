@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
@@ -24,6 +25,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import java.util.*
+import java.util.jar.Manifest
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +34,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var bottomTabs : BottomNavigationView
     var request_code = 101
     var PROXIMITY_RADIUS = 100000
+    //var lat : Double = 0.0
     var lat : Double = 39.1902658
+    //var lng : Double = 0.0
     var lng : Double = -76.6100414
     lateinit var fusedLocationProviderClient : FusedLocationProviderClient
     var storeViewIntent : Intent? = null
@@ -50,6 +54,17 @@ class MainActivity : AppCompatActivity() {
 
         //fused initialized
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        if(ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            && ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            //permission granted
+             Toast.makeText(this, "Has permissions!", Toast.LENGTH_LONG).show()
+            getCurrentLocation()
+        }else{
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), request_code)
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), request_code)
+            //requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION), 1)
+        }
+
 
         // Initialize the SDK
         val key = "AIzaSyBORW6PHdIIcO2wV8x_QSg8l_pW3NtYL9A"
@@ -131,6 +146,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //search bar result
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == requestCode && resultCode == RESULT_OK){
@@ -149,48 +165,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("MissingPermission")
-    fun getCurrentLocation(){
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), request_code)
-        }
-
-        var locationRequest : LocationRequest = LocationRequest.create()
-        locationRequest.setInterval(60000)
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        locationRequest.setFastestInterval(5000)
-        var locationCallback : LocationCallback = object : LocationCallback() {
-            override fun onLocationResult(result : LocationResult){
-                Toast.makeText(applicationContext, "result is : " + result, Toast.LENGTH_LONG).show()
-
-                if(result == null){
-                    Toast.makeText(applicationContext, "Current location is null ", Toast.LENGTH_LONG).show()
-                }else{
-                    for(location in result.locations){
-
-                        if(location != null){
-                            Toast.makeText(applicationContext, "current location is : " + location.latitude + "," + location.longitude, Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
-
-            }
-
-        }
-
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
-
+    private fun getCurrentLocation(){
         var task : Task<Location> = fusedLocationProviderClient.lastLocation
-        task.addOnSuccessListener (object : OnSuccessListener<Location>{
-            override fun onSuccess(location: Location?) {
-                if(location != null){
-                    lat = location.latitude
-                    lng = location.longitude
+        task.addOnSuccessListener(object : OnSuccessListener<Location>{
 
-                    var latLng : LatLng = LatLng(lat, lng)
+            override fun onSuccess(location: Location?) {
+                if(location != null) {
+                    lat = location!!.latitude
+                    lng = location!!.longitude
+                    Toast.makeText(
+                        applicationContext,
+                        "latLng: (" + lat + "," + lng + ")",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
+
         })
     }
 
@@ -203,7 +193,7 @@ class MainActivity : AppCompatActivity() {
 
         if(requestCode == request_code) {
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                getCurrentLocation()
+                //getCurrentLocation()
             }
         }
 
