@@ -16,11 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
 class ReviewActivity : AppCompatActivity() {
-    var editTextTextPersonName: EditText? = null
-    var search: Button? = null
+
     private lateinit var adapter: ReviewAdapter
     lateinit var bottomTabs : BottomNavigationView
     var storeNameTextView: TextView? = null
+    var storeName: String? = null
     var db: FirebaseFirestore? = null
     var mAuth: FirebaseAuth? = null
     var mStr: FirebaseStorage? = null
@@ -36,21 +36,21 @@ class ReviewActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         mStr = FirebaseStorage.getInstance()
 
-//        var storeName = intent.getStringExtra("STORE_NAME")
-//        var coordinates = intent.getStringExtra("STORE_COORDINATES")
+        storeName = intent.getStringExtra("STORE_NAME")
         storeCoord = intent.getStringExtra("STORE_COORDINATES")
 
         bottomTabs = findViewById(R.id.bottom_navigation)
-        editTextTextPersonName = findViewById(R.id.editTextTextPersonName)
-        search = findViewById(R.id.search)
 
+        storeNameTextView = findViewById(R.id.storeNameTextView)
+
+        storeNameTextView!!.text = storeName + storeCoord
         val recyclerView : RecyclerView = findViewById(R.id.recycler_view)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(this, 1, RecyclerView.VERTICAL, false)
 
 
         val storeList = reviewList // reviewList
-        //storeList.add(StoreEntry())
+        displayReviews()
         adapter = ReviewAdapter(storeList as List<StoreEntry>)
         recyclerView.adapter = adapter
 
@@ -58,8 +58,6 @@ class ReviewActivity : AppCompatActivity() {
                 item ->
             when(item.itemId){
                 R.id.page_1 -> {
-//                    searchBar.setText("")
-//                    searchBar.performClick()
                     false
                 }
                 R.id.page_2 -> {
@@ -80,8 +78,6 @@ class ReviewActivity : AppCompatActivity() {
 
     private fun displayReviews() {
         // TODO("Not yet implemented")
-        var name = editTextTextPersonName!!.text!!.toString()
-
         db!!.collection("Review")
             .whereEqualTo("coordinates",storeCoord)
             .get()

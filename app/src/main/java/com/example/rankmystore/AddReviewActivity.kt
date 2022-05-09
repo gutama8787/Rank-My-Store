@@ -180,7 +180,6 @@ class AddReviewActivity : AppCompatActivity() {
     }
 
     private fun addReview() {
-        // var newRating = Rating("Address1","Address1","${mAuth!!.currentUser!!.email}","apple","picturepath")
 
         if (isUserSignedIn()) {
             var comment = commentInputEditText!!.text!!.toString()
@@ -193,19 +192,6 @@ class AddReviewActivity : AppCompatActivity() {
         }
     }
 
-    private fun readData() {
-        db!!.collection("users")
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (document in task.result) {
-                        Log.d(TAG, document.id + " => " + document.data)
-                    }
-                } else {
-                    Log.w(TAG, "Error getting documents.", task.exception)
-                }
-            }
-    }
 
     private fun addData(review: Review) {
 
