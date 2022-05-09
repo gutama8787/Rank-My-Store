@@ -16,11 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RankMyStore">
         <activity
+            android:name=".ReviewActivity"
+            android:exported="true" />
+        <activity
             android:name=".AddReviewActivity"
             android:exported="true" />
         <activity
             android:name=".DatabaseTesterActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".CentralActivity"
             android:exported="true" />

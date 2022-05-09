@@ -7,42 +7,35 @@
     tools:context=".DatabaseTesterActivity">
 
     <Button
-        android:id="@+id/showAllStoresButton"
+        android:id="@+id/search"
         android:layout_width="191dp"
         android:layout_height="62dp"
-        android:layout_marginTop="24dp"
-        android:text="All Stores"
+        android:layout_marginTop="36dp"
+        android:text="Search store"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:hint="store name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/showAllStoresTextView"
-        android:layout_width="254dp"
-        android:layout_height="209dp"
-        android:layout_marginTop="92dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/showAllStoresButton" />
-
-    <Button
-        android:id="@+id/showStoreButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Show a store"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="325dp"
+        android:layout_height="497dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/showAllStoresTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/search" />
 
-    <TextView
-        android:id="@+id/showStoreTextview"
-        android:layout_width="244dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="48dp"
-        android:text="TextView"
-        app:layout_constraintTop_toBottomOf="@+id/showStoreButton"
-        tools:layout_editor_absoluteX="83dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

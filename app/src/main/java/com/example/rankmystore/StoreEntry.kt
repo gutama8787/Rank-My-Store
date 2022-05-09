@@ -1,5 +1,6 @@
 package com.example.rankmystore
 
+import android.graphics.Bitmap
 import android.os.Bundle
 
 class StoreEntry {
@@ -10,4 +11,6 @@ class StoreEntry {
     var lat: Double = 0.0
     var lng: Double = 0.0
     var imageKeys: ArrayList<String> = ArrayList()
+    var comment: String = ""
+    var img: Bitmap? = null
 }

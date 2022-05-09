@@ -152,8 +152,10 @@ class DatabaseProvider {
                         } else {
                             ratingBar.rating = 5.0f
                         }
+                    } else if (ratings.size != 0){
+                        textView.text = ratings.size.toString() + " review(s)"
                     } else {
-                        textView.text = ratings.size.toString() + " reviews"
+                        textView.text = "No reviews"
                     }
 
                 } else {
@@ -164,7 +166,6 @@ class DatabaseProvider {
             Thread.sleep(1000)
         return ratings
     }
-
 
     public fun getCardAvgRating(address: String, textView: TextView) : Float{
         var ratings: ArrayList<Float> = ArrayList<Float>()
